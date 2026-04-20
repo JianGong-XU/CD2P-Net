@@ -1,27 +1,53 @@
-# Collaborative Dual-Domain Perception Network for Unsupervised Despeckling of Sentinel-1 Dual-Polarization SAR Images
+# CD2P-Net
 
-Official PyTorch implementation of the paper  
-**"Collaborative Dual-Domain Perception Network for Unsupervised Despeckling of Sentinel-1 Dual-Polarization SAR Images"**
+PyTorch implementation for dual-polarization SAR despeckling with multitemporal observations.
 
-By **Jiangong Xu**, **Yang Yang**, **Weibao Xue**, **Xiaoyu Yu**, **Junli Li**, **Jun Pan**, and **Mi Wang**  
+**Authors:** Jiangong Xu, Yang Yang, Weibao Xue, Xiaoyu Yu, Junli Li, Jun Pan, and Mi Wang
 
-
-[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)]()
-[![PyTorch](https://img.shields.io/badge/PyTorch-1.9%2B-red)]()
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-1.9%2B-red)
 
 ---
 
-## 🚀 Abstract
+## Overview
 
-> Despeckling of real dual-polarization SAR data remains challenging due to the absence of clean reference images and the complex statistical characteristics of speckle noise. Although existing unsupervised deep learning methods have shown promising performance, they still have limited ability to exploit temporal correlations among multitemporal observations and often overlook physical constraints embedded in polarimetric information, resulting in incomplete structural recovery and scattering distortion. To address these issues, this article proposes **CD2P-Net**, a collaborative dual-domain progressive network for real dual-polarization SAR image despeckling. Built upon an enhanced multitemporal Noise2Noise paradigm, the proposed method jointly models spatial, frequency-domain, and temporal dependencies to fully exploit speckle independence and temporal coherence across adjacent acquisitions. In addition, covariance statistics and polarimetric decomposition cues are incorporated to enhance the physical consistency of learned representations. Extensive experiments on real dual-polarization Sentinel-1 time-series data demonstrate that **CD2P-Net** consistently outperforms representative existing methods in both quantitative and visual evaluations, while effectively preserving spatial details, polarimetric fidelity, and semantic integrity.
+This repository provides the official implementation of **CD2P-Net**, a deep learning framework developed for despeckling real Sentinel-1 dual-polarization SAR imagery under multitemporal conditions.
 
-> <p align="center">
->  <img src="figures/structure_of_CD2PT-Net.png" width="95%">
-> </p>
+CD2P-Net is designed to make use of neighboring temporal observations together with dual-polarization feature representations. The model combines spatial and frequency-aware feature processing and is built for unsupervised training on noisy SAR data, without requiring clean reference images.
+
+The current project focuses on:
+
+- multitemporal learning for SAR despeckling
+- dual-polarization feature modeling
+- physically meaningful representation design
+- evaluation on real Sentinel-1 time-series data
 
 ---
 
-## 📊 Dataset Description
+## Main Characteristics
+
+- Supports despeckling of **real dual-polarization Sentinel-1 SAR images**
+- Uses **adjacent temporal acquisitions** during learning
+- Incorporates **covariance-derived and decomposition-related features**
+- Implements a **dual-domain network architecture**
+- Trained in an **unsupervised** manner on noisy observations
+
+---
+
+## Repository Contents
+
+```text
+CD2P-Net/
+├── data/           # dataset organization and preprocessing files
+├── models/         # network definitions
+├── train.py        # training script
+├── test.py         # inference / evaluation script
+├── utils/          # utility functions
+└── README.md
+
+---
+
+## Dataset Description  
 
 We constructed a large-scale multitemporal Sentinel-1 **dual-polarization SLC dataset** that preserves both amplitude and phase information — essential for speckle modeling and physical scattering consistency.
 

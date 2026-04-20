@@ -44,139 +44,104 @@ CD2P-Net/
 ├── test.py         # inference / evaluation script
 ├── utils/          # utility functions
 └── README.md
+```
+
+> Update the file structure above if your repository uses different folder names.
 
 ---
 
-## Dataset Description  
+## Dataset
 
-We constructed a large-scale multitemporal Sentinel-1 **dual-polarization SLC dataset** that preserves both amplitude and phase information — essential for speckle modeling and physical scattering consistency.
+The experiments are based on real Sentinel-1 dual-polarization SAR time-series data.
+Please organize the dataset according to the structure required by the training and testing scripts.
 
-### Specifications
-| Property | Description |
-|-----------|-------------|
-| **Coverage** | 18 distinct regions across China |
-| **Temporal Structure** | Triplets: (target + two auxiliary acquisitions) |
-| **Patch Size** | 256×256 pixels |
-| **Total Samples** | 41,004 patches |
-| **Split Ratio** | 5:1 (Train : Test) |
+If the dataset link is public, you can provide it here:
 
-### Preprocessing
-Performed using **ESA SNAP** and **PolSARPro**, including:
-- Orbit correction  
-- Radiometric calibration  
-- Polarimetric decomposition (H/A/α)  
-- Coherency/Covariance matrix generation  
-
-### Download
-📦 Links to [here (Baidu Cloud)](https://pan.baidu.com/s/1iwMNjt2CjvE4fKSMozXXHQ?pwd=1111) download the data. Password: `1111`
-```
-Sentinel-1 time-series data/
-├── S01/
-│ ├── S01_Ass_S1A_YYYYMMDDTHHMMSS/ # Auxiliary 1
-│ ├── S01_Ass_S1A_YYYYMMDDTHHMMSS/ # Auxiliary 2
-│ └── S01_Tar_S1A_YYYYMMDDTHHMMSS/ # Target
-├── ...
-└── S18/
-└── Basic information.xlsx
-```
-
-**Naming Convention:**
-- `Tar`: Target phase for despeckling  
-- `Ass`: Auxiliary temporal phases  
-- `S01–S18`: 18 geographical regions  
-- `S1A/S1C`: Sentinel-1 satellite identifier  
+- Dataset: `TBD`
+- Preprocessing instructions: `TBD`
 
 ---
 
-## 🧠 Network Overview
+## Environment
 
-### Core Modules
-| Module | Function |
-|---------|-----------|
-| **SPP (SFS_Conv)** | Shunt Parallel Perception — spatial–frequency fusion using FrGT/FrFT filters |
-| **AFG** | Adaptive Feature Gating — learnable frequency-domain modulation |
-| **HFA** | Holistic Feature Aggregation — combines CFR-SA and DFR-SA mechanisms |
-| **DDCR** | Dual-Domain Collaborative Refinement — integrates SPP, AFG, and HFA |
-| **R²A Group** | Recursive Residual Aggregation — progressive temporal refinement |
-| **CollaborativeLoss** | Combines fidelity, edge, and temporal losses with uncertainty weighting |
+Recommended environment:
 
----
+- Python 3.8+
+- PyTorch 1.9+
+- CUDA-enabled GPU for training
 
-## 📂 Repository Structure
-
-```
-MTPI-Net/
-├── modules/
-│ ├── SPP.py # Shunt Parallel Perception module
-│ ├── AFG.py # Adaptive Feature Gating module
-│ ├── HFA.py # Holistic Feature Aggregation module
-│ ├── D2CR.py # Dual-Domain Collaborative Refinement
-│ ├── CD2PT_Net.py # Main network (FEN + R2A + DDCR)
-│ ├── losses.py # Collaborative optimization loss
-├── train.py # Training script
-├── inference.py # Inference script
-├── requirements.txt # Dependencies
-├── README.md
-└── checkpoints/ # Model weights
-```
-
----
-
-## ⚙️ Environment Setup
+Install dependencies with:
 
 ```bash
-conda create -n mtpi python=3.9
-conda activate mtpi
 pip install -r requirements.txt
 ```
 
-## 🏋️ Training
+---
 
-```
-python train.py --epochs 60 --batch_size 8 --lr 1e-4 --device cuda
+## Training
+
+Run the training script with:
+
+```bash
+python train.py
 ```
 
-### Settings:
-- Optimizer: AdamW
-- LR schedule: CosineAnnealing (1e-4 → 1e-6)
-- Loss: CollaborativeLoss (σ-weighted multi-term)
-- Checkpoints: saved automatically in ./checkpoints/
+You may modify the configuration files or script arguments to set:
 
-## 🔍 Inference
-```
-python inference.py \
-    --model_path ./checkpoints/mtpi_epoch_060.pth \
-    --save_dir ./results
-```
-### Output:
-- .npy despeckled image files
-- Optional .tif export (enabled via tifffile)
+- data paths
+- batch size
+- learning rate
+- checkpoint directory
+- training epochs
 
-## 📜 Citation
+---
 
-If you use this code or dataset, please cite:
+## Testing
+
+Run inference or evaluation with:
+
+```bash
+python test.py
 ```
-@article{Xu2026CD2PT,
-  title={Collaborative Dual-Domain Perception Network for Unsupervised Despeckling of Sentinel-1 Dual-Polarization SAR Images},
+
+Please make sure that the pretrained weights and dataset paths are correctly specified before testing.
+
+---
+
+## Pretrained Weights
+
+Pretrained models will be released here:
+
+- `TBD`
+
+---
+
+## Citation
+
+If you find this repository useful in your research, please cite the corresponding paper.
+
+```bibtex
+@article{xu2026cd2pnet,
+  title={Physically consistent multitemporal dual-domain learning for dual-polarization SAR despeckling},
   author={Xu, Jiangong and Yang, Yang and Xue, Weibao and Yu, Xiaoyu and Li, Junli and Pan, Jun and Wang, Mi},
-  journal={XXXX},
-  year={2026}
+  journal={International Journal of Applied Earth Observation and Geoinformation},
+  year={2026},
+  note={under review}
 }
 ```
-## 📄 License
-This project is released under the **MIT License**.
-© 2026 Jiangong Xu et al. All rights reserved.
 
-🙌 Acknowledgments
+> If the paper is not yet publicly available, you may also temporarily remove the BibTeX block and keep only a plain-text citation note.
 
-- This implementation references **ESA SNAP** and **PolSARpro** for preprocessing, and builds upon the PyTorch deep learning framework.
-- We thank the **Sentinel-1 mission** team for their constructive feedback and data support.
-- For the construction of the SPP Module, we referenced [**SFS-Conv**](https://github.com/like413/SFS-Conv/tree/main).
+---
 
+## Acknowledgements
 
+We thank the providers of Sentinel-1 data and the open-source community for tools that supported this implementation.
 
+---
 
+## Contact
 
+For questions regarding the code, please contact:
 
-
-
+- Jiangong Xu: `dd_xjg@whu.edu.cn`
